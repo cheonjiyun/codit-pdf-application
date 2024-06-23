@@ -1,7 +1,7 @@
 .input-container {
     display: flex;
     justify-content: center;
-    margin: 0 auto;
+    margin: 0 auto 20px;
 }
 
 input[type="file"] {
@@ -10,17 +10,36 @@ input[type="file"] {
 
 input[type="file"] + label {
     display: block;
-    font-size: 20px;
-    font-weight: 600;
     padding: 10px 24px;
     color: #ffffff;
     background-color: rgb(18, 168, 191);
     border-radius: 4px;
     cursor: pointer;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 input[type="file"] + label:hover {
     background-color: rgb(15, 141, 160);
+}
+
+.pdf-util button {
+    margin: 4px;
+    padding: 5px 12px;
+    color: #272525;
+    font-size: 16px;
+    background-color: rgb(223, 223, 223);
+    border: 1px solid #e6e6e6;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.pdf-util button:hover {
+    background-color: rgb(206, 206, 206);
+}
+
+.pdf-util button:active {
+    transform: scale(99%);
 }
 
 .pdf-container {
