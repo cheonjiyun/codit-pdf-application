@@ -1,18 +1,10 @@
-import { getDocument } from "pdfjs-dist";
 import { useEffect, useRef } from "react";
 
-export default function Canvas({ setPdfDoc, pageNum, url }) {
+export default function Canvas({ pdfDoc, pageNum }) {
     const canvasRef = useRef(null);
 
     const renderPage = async () => {
-        if (url === "") return;
-
-        const loadingTask = getDocument(url); // pdf src url 제공 -> task를 반환
-
-        const pdf = await loadingTask.promise;
-        setPdfDoc(pdf);
-
-        const page = await pdf.getPage(pageNum);
+        const page = await pdfDoc.getPage(pageNum);
         const scale = 1.5;
         const viewport = page.getViewport({ scale });
 
@@ -41,7 +33,7 @@ export default function Canvas({ setPdfDoc, pageNum, url }) {
 
     useEffect(() => {
         renderPage();
-    }, [pageNum]);
+    }, []);
 
     return <canvas ref={canvasRef} id="the-canvas"></canvas>;
 }
