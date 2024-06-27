@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Canvas({ pdfDoc, pageNum }) {
+export default function Canvas({ pdfDoc, pageNum, textParsing, textParsingStart }) {
     const canvasRef = useRef(null);
 
     const renderPage = async () => {
@@ -27,8 +27,28 @@ export default function Canvas({ pdfDoc, pageNum }) {
         };
 
         page.render(renderContext);
-        const temp = await page.getTextContent();
-        console.log(temp);
+        const text = await page.getTextContent(true);
+        let temp = ["", ""];
+        text.items.forEach((item) => {
+            if (item.str == "신·구조문대비표") {
+                textParsingStart.current = true;
+                return;
+            } else if (
+                textParsingStart.current &&
+                item.transform[5] <= 750 &&
+                item.transform[5] >= 48
+            ) {
+                if (pageNum >= 6 && item.transform[4] >= 317) {
+                    temp[1] += item.str;
+                    // textParsing.current[0].push(item.str);
+                } else {
+                    temp[0] += item.str;
+                }
+            }
+        });
+
+        textParsing.current.push(temp);
+        console.log(textParsing.current);
     };
 
     useEffect(() => {

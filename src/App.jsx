@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 import Canvas from "./compenent/Canvas";
@@ -6,6 +6,8 @@ import Canvas from "./compenent/Canvas";
 GlobalWorkerOptions.workerSrc = "/node_modules/pdfjs-dist/build/pdf.worker.mjs"; //모듈 소스
 function App() {
     const [pdfDoc, setPdfDoc] = useState(null); // pdfDoc 보관
+    const textParsingStart = useRef(false);
+    const textParsing = useRef([]);
 
     /* pdf 확장자만 받는다 */
     const filtTypeCheck = (event) => {
@@ -42,8 +44,14 @@ function App() {
             {/* <iframe src="/assets/2100113_의사국 의안과_의안원문.pdf"></iframe> */}
             <div className="pdf-container">
                 {pdfDoc &&
-                    [...Array(pdfDoc.numPages)].map((num, index) => (
-                        <Canvas pdfDoc={pdfDoc} pageNum={index + 1} key={num} num={num} />
+                    [...Array(pdfDoc.numPages)].map((_, index) => (
+                        <Canvas
+                            pdfDoc={pdfDoc}
+                            pageNum={index + 1}
+                            key={index}
+                            textParsing={textParsing}
+                            textParsingStart={textParsingStart}
+                        />
                     ))}
                 <div className="text-container"></div>
             </div>
