@@ -3,7 +3,7 @@ import "./App.css";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 import Canvas from "./compenent/Canvas";
 
-GlobalWorkerOptions.workerSrc = "/node_modules/pdfjs-dist/build/pdf.worker.mjs"; //모듈 소스
+GlobalWorkerOptions.workerSrc = "./node_modules/pdfjs-dist/build/pdf.worker.mjs"; //모듈 소스
 function App() {
     const [pdfDoc, setPdfDoc] = useState(null); // pdfDoc 보관
     const textParsingStart = useRef(false);
@@ -35,14 +35,28 @@ function App() {
         setPdfDoc(pdf);
     };
 
+    /* 파싱결과 다운로드 */
+    const onParsingDownload = () => {
+        const blob = new Blob([textParsing.current], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "신구조문 파싱";
+        a.click();
+    };
+
     return (
         <main>
             <div className="input-container">
                 <input type="file" id="pdf-upload" accept=".pdf" onChange={fileChange} />
                 <label htmlFor="pdf-upload">PDF업로드</label>
             </div>
-            {/* <iframe src="/assets/2100113_의사국 의안과_의안원문.pdf"></iframe> */}
             <div className="pdf-container">
+                {pdfDoc && (
+                    <button className="pdf-util" onClick={onParsingDownload}>
+                        파싱한결과를 .txt로 다운로드
+                    </button>
+                )}
                 {pdfDoc &&
                     [...Array(pdfDoc.numPages)].map((_, index) => (
                         <Canvas

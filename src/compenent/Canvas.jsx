@@ -4,7 +4,7 @@ export default function Canvas({ pdfDoc, pageNum, textParsing, textParsingStart 
     const canvasRef = useRef(null);
 
     const renderPage = async () => {
-        const page = await pdfDoc.getPage(pageNum);
+        const page = await pdfDoc.getPage(pageNum); // 페이지별로 불러오기
         const scale = 1.5;
         const viewport = page.getViewport({ scale });
 
@@ -34,13 +34,14 @@ export default function Canvas({ pdfDoc, pageNum, textParsing, textParsingStart 
                 textParsingStart.current = true;
                 return;
             } else if (
+                // 여백 아래에서만
                 textParsingStart.current &&
                 item.transform[5] <= 750 &&
                 item.transform[5] >= 48
             ) {
+                // 좌우로
                 if (pageNum >= 6 && item.transform[4] >= 317) {
                     temp[1] += item.str;
-                    // textParsing.current[0].push(item.str);
                 } else {
                     temp[0] += item.str;
                 }
@@ -48,7 +49,9 @@ export default function Canvas({ pdfDoc, pageNum, textParsing, textParsingStart 
         });
 
         textParsing.current.push(temp);
-        console.log(textParsing.current);
+
+        // 파싱 결과 출력
+        if (pageNum == pdfDoc.numPages) console.log(textParsing.current);
     };
 
     useEffect(() => {

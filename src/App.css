@@ -23,7 +23,7 @@ input[type="file"] + label:hover {
     background-color: rgb(15, 141, 160);
 }
 
-.pdf-util button {
+.pdf-util {
     margin: 4px;
     padding: 5px 12px;
     color: #272525;
@@ -34,11 +34,11 @@ input[type="file"] + label:hover {
     cursor: pointer;
 }
 
-.pdf-util button:hover {
+.pdf-util:hover {
     background-color: rgb(206, 206, 206);
 }
 
-.pdf-util button:active {
+.pdf-util:active {
     transform: scale(99%);
 }
 
