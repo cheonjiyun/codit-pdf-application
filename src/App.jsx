@@ -3,8 +3,9 @@ import "./App.css";
 import { GlobalWorkerOptions, getDocument } from "pdfjs-dist";
 import Canvas from "./compenent/Canvas";
 
-GlobalWorkerOptions.workerSrc = "./node_modules/pdfjs-dist/build/pdf.worker.mjs"; //모듈 소스
 function App() {
+    GlobalWorkerOptions.workerSrc = "/node_modules/pdfjs-dist/build/pdf.worker.mjs"; //모듈 소스
+
     const [pdfDoc, setPdfDoc] = useState(null); // pdfDoc 보관
     const textParsingStart = useRef(false);
     const textParsing = useRef([]);
